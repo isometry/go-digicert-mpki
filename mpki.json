@@ -1,0 +1,1679 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This document specifies the APIs that user can implement to consume DigiCert PKI platform web services. It details a set of RESTful APIs to allow issuance, management of certificates and users.",
+        "version": "1.0.35",
+        "title": "DigiCert PKI Platform Rest APIs"
+    },
+    "host": "pki-ws-rest.symauth.com",
+    "basePath": "/mpki",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "APIKeyHeader": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        }
+    },
+    "tags": [
+        {
+            "name": "Certificate Enrollment",
+            "description": "Certificate Controller"
+        },
+        {
+            "name": "Certificate Profile",
+            "description": "Profile Controller"
+        },
+        {
+            "name": "Enroll Status",
+            "description": "Enroll Status Controller"
+        },
+        {
+            "name": "Hello",
+            "description": "Hello Controller"
+        },
+        {
+            "name": "Search Certificate",
+            "description": "Search Certificate Controller"
+        },
+        {
+            "name": "Seat Management",
+            "description": "Seat Management Controller"
+        },
+        {
+            "name": "User Management",
+            "description": "User Management Controller"
+        }
+    ],
+    "paths": {
+        "/api/v1/certificate": {
+            "post": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API is used to enroll a certificate for a given profile.",
+                "operationId": "enrollCertificate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "enrollCertificateRequest",
+                        "description": "enrollCertificateRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RequestCertificateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/certificate/{serialNumber}": {
+            "get": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API is used to get certificate details for a given certificate serial number",
+                "operationId": "getCertificate",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "serialNumber",
+                        "in": "path",
+                        "description": "serialNumber",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/certificate/{serialNumber}/key": {
+            "get": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API is used to get private key information for key-escrowed certificate with given serial number",
+                "operationId": "recoverKey",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "serialNumber",
+                        "in": "path",
+                        "description": "serialNumber",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/certificate/{serialNumber}/renew": {
+            "post": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API is used to renew certificate with the given serial number.",
+                "operationId": "renewCertificate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "enrollCertificateRequest",
+                        "description": "enrollCertificateRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RequestCertificateRequest"
+                        }
+                    },
+                    {
+                        "name": "serialNumber",
+                        "in": "path",
+                        "description": "serialNumber",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/certificate/{serialNumber}/revoke": {
+            "put": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API can revoke certificate with the given serial number",
+                "operationId": "revokeCertificate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "revokeCertificateRequest",
+                        "description": "revokeCertificateRequest",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RevokeCertificateRequest"
+                        }
+                    },
+                    {
+                        "name": "serialNumber",
+                        "in": "path",
+                        "description": "serialNumber",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Certificate Enrollment"
+                ],
+                "summary": "This API can resume certificate with the given serial number.",
+                "operationId": "unRevokeCertificate",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "serialNumber",
+                        "in": "path",
+                        "description": "serialNumber",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/enrollment": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "This API is used to enroll user for profile.",
+                "operationId": "createPasscode",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "createPasscodeRequest",
+                        "description": "createPasscodeRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreatePasscodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/enrollment/{enrollCode}": {
+            "get": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "This API is used to get details of an existing enrollment.",
+                "operationId": "getEnrollment",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "enrollCode",
+                        "in": "path",
+                        "description": "enrollCode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "seat_id",
+                        "in": "query",
+                        "description": "seat_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "This API is used to reset enrollment code.",
+                "operationId": "resetPasscode",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "enrollCode",
+                        "in": "path",
+                        "description": "enrollCode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "resetPasscodeRequest",
+                        "description": "resetPasscodeRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ResetPasscodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "This API can delete an enrollment for given enrollment id",
+                "operationId": "deleteEnrollment",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deleteEnrollRequest",
+                        "description": "deleteEnrollRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteEnrollmentRequest"
+                        }
+                    },
+                    {
+                        "name": "enrollCode",
+                        "in": "path",
+                        "description": "enrollCode",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/enrollstatus/{seatId}": {
+            "get": {
+                "tags": [
+                    "Enroll Status"
+                ],
+                "summary": "This API is used to get certificate enrollment status.",
+                "operationId": "enrollStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "profile_id",
+                        "in": "query",
+                        "description": "profile_id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "seatId",
+                        "in": "path",
+                        "description": "seatId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certificate enrollment status result",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/GetEnrollStatusResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/hello": {
+            "get": {
+                "tags": [
+                    "Hello"
+                ],
+                "summary": "Hello API",
+                "operationId": "hello",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/profile": {
+            "get": {
+                "tags": [
+                    "Certificate Profile"
+                ],
+                "summary": "This API is used to get profile details of all profiles in an account and its subaccounts",
+                "operationId": "getAllProfiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/GetProfileResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/profile/{profileId}": {
+            "get": {
+                "tags": [
+                    "Certificate Profile"
+                ],
+                "summary": "This API is used to get profile details for a given profile id",
+                "operationId": "getProfile",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "description": "profileId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetProfileResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/searchcert": {
+            "post": {
+                "tags": [
+                    "Search Certificate"
+                ],
+                "summary": "This API is used to search for certificates.",
+                "operationId": "searchCert",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "searchReq",
+                        "description": "searchReq",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SearchCertificateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certificate search result",
+                        "schema": {
+                            "$ref": "#/definitions/SearchCertificateResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/seat": {
+            "post": {
+                "tags": [
+                    "Seat Management"
+                ],
+                "summary": "This API is used to create a seat. This seat can be used for  a user, device, server or organization seat pool.",
+                "operationId": "createSeat",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "createSeatRequest",
+                        "description": "createSeatRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateSeatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/v1/seat/{seatId}": {
+            "get": {
+                "tags": [
+                    "Seat Management"
+                ],
+                "summary": "This API is used to get information regarding a seat.",
+                "operationId": "getSeat",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "seatId",
+                        "in": "path",
+                        "description": "seatId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "Seat Management"
+                ],
+                "summary": "This API is used to change the seat details.",
+                "operationId": "updateSeat",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "seatId",
+                        "in": "path",
+                        "description": "seatId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "updateSeatRequest",
+                        "description": "updateSeatRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateSeatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Seat Management"
+                ],
+                "summary": "This API is used to delete a seat. Deleting a seat will revoke all the certificates associated to the specified seat.",
+                "operationId": "deleteSeat",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "seatId",
+                        "in": "path",
+                        "description": "seatId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "Account": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "title": "Account"
+        },
+        "ApiError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "field": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            },
+            "title": "ApiError"
+        },
+        "Attribute": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "title": "Attribute"
+        },
+        "AuthAttribute": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mandatory": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "title": "AuthAttribute"
+        },
+        "Authentication": {
+            "type": "object",
+            "properties": {
+                "approval": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AuthAttribute"
+                    }
+                },
+                "method": {
+                    "type": "string"
+                },
+                "method_id": {
+                    "type": "string"
+                }
+            },
+            "title": "Authentication"
+        },
+        "CertificateAttributes": {
+            "type": "object",
+            "properties": {
+                "common_name": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string"
+                },
+                "counter_signature": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "custom_attributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "dn_qualifier": {
+                    "type": "string"
+                },
+                "domain_component": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "domain_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "given_name": {
+                    "type": "string"
+                },
+                "ip_address": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "locality": {
+                    "type": "string"
+                },
+                "message_digest": {
+                    "type": "string"
+                },
+                "organization_name": {
+                    "type": "string"
+                },
+                "organization_unit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "postal_code": {
+                    "type": "string"
+                },
+                "pseudonym": {
+                    "type": "string"
+                },
+                "san": {
+                    "$ref": "#/definitions/SanAttributes"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "signing_time": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "street_address": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "unique_identifier": {
+                    "type": "string"
+                },
+                "unstructured_address": {
+                    "type": "string"
+                },
+                "unstructured_name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            },
+            "title": "CertificateAttributes"
+        },
+        "CertificateDetails": {
+            "type": "object",
+            "properties": {
+                "extensions": {
+                    "$ref": "#/definitions/Extensions"
+                },
+                "issuer": {
+                    "$ref": "#/definitions/Issuer"
+                },
+                "subject": {
+                    "$ref": "#/definitions/Subject"
+                },
+                "validity": {
+                    "$ref": "#/definitions/Validity"
+                }
+            },
+            "title": "CertificateDetails"
+        },
+        "CertificateInfo": {
+            "type": "object",
+            "properties": {
+                "certificate": {
+                    "type": "string",
+                    "format": "byte"
+                },
+                "root": {
+                    "type": "boolean"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "subject_dn": {
+                    "type": "string"
+                }
+            },
+            "title": "CertificateInfo"
+        },
+        "CreatePasscodeRequest": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/CertificateAttributes"
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
+                },
+                "seat": {
+                    "$ref": "#/definitions/Seat"
+                }
+            },
+            "title": "CreatePasscodeRequest"
+        },
+        "CreateSeatRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "seat_id": {
+                    "type": "string"
+                },
+                "seat_name": {
+                    "type": "string"
+                }
+            },
+            "title": "CreateSeatRequest"
+        },
+        "CryptoProviders": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "title": "CryptoProviders"
+        },
+        "DeleteEnrollmentRequest": {
+            "type": "object",
+            "properties": {
+                "seat": {
+                    "$ref": "#/definitions/Seat"
+                }
+            },
+            "title": "DeleteEnrollmentRequest"
+        },
+        "Enrollment": {
+            "type": "object",
+            "properties": {
+                "client_type": {
+                    "type": "string"
+                },
+                "client_type_id": {
+                    "type": "string"
+                }
+            },
+            "title": "Enrollment"
+        },
+        "ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiError"
+                    }
+                }
+            },
+            "title": "ErrorResponse"
+        },
+        "Extensions": {
+            "type": "object",
+            "properties": {
+                "san": {
+                    "$ref": "#/definitions/San"
+                }
+            },
+            "title": "Extensions"
+        },
+        "GetCertificateResponse": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "$ref": "#/definitions/Account"
+                },
+                "certificate": {
+                    "type": "string"
+                },
+                "common_name": {
+                    "type": "string"
+                },
+                "enrollment_notes": {
+                    "type": "string"
+                },
+                "is_key_escrowed": {
+                    "type": "boolean"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
+                },
+                "revocation": {
+                    "$ref": "#/definitions/Revocation"
+                },
+                "seat": {
+                    "$ref": "#/definitions/Seat"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "session_key": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "type": "string"
+                },
+                "valid_to": {
+                    "type": "string"
+                },
+                "webpin": {
+                    "type": "string"
+                }
+            },
+            "title": "GetCertificateResponse"
+        },
+        "GetEnrollStatusResponse": {
+            "type": "object",
+            "properties": {
+                "certificates": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "profile_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            },
+            "title": "GetEnrollStatusResponse"
+        },
+        "GetProfileResponse": {
+            "type": "object",
+            "properties": {
+                "authentication": {
+                    "$ref": "#/definitions/Authentication"
+                },
+                "certificate": {
+                    "$ref": "#/definitions/CertificateDetails"
+                },
+                "certificate_delivery_format": {
+                    "type": "string"
+                },
+                "duplicate_cert_policy": {
+                    "type": "boolean"
+                },
+                "enrollment": {
+                    "$ref": "#/definitions/Enrollment"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "private_key_attributes": {
+                    "$ref": "#/definitions/PrivateKeyAttributes"
+                },
+                "publish_to_public_directory": {
+                    "type": "boolean"
+                },
+                "renewal_period_days": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "signature_algorithm": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            },
+            "title": "GetProfileResponse"
+        },
+        "Issuer": {
+            "type": "object",
+            "properties": {
+                "certificate": {
+                    "type": "string",
+                    "format": "byte"
+                },
+                "chain": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CertificateInfo"
+                    }
+                },
+                "root": {
+                    "type": "boolean"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "subject_dn": {
+                    "type": "string"
+                }
+            },
+            "title": "Issuer"
+        },
+        "KeyEscrowPolicyType": {
+            "type": "object",
+            "properties": {
+                "do_key_recovery_for_additional_enroll_request": {
+                    "type": "boolean"
+                },
+                "key_escrow_deployment_mode": {
+                    "type": "string"
+                },
+                "key_escrow_enabled": {
+                    "type": "boolean"
+                },
+                "key_recovery_dual_admin_approval_required": {
+                    "type": "boolean"
+                }
+            },
+            "title": "KeyEscrowPolicyType"
+        },
+        "PrivateKeyAttributes": {
+            "type": "object",
+            "properties": {
+                "algorithm_oid": {
+                    "type": "string"
+                },
+                "crypto_providers": {
+                    "$ref": "#/definitions/CryptoProviders"
+                },
+                "key_escrow_policy": {
+                    "$ref": "#/definitions/KeyEscrowPolicyType"
+                },
+                "key_exportable": {
+                    "type": "boolean"
+                },
+                "key_protect": {
+                    "type": "boolean"
+                },
+                "key_size": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "key_sizes": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "title": "PrivateKeyAttributes"
+        },
+        "Profile": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "title": "Profile"
+        },
+        "RequestCertificateRequest": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/CertificateAttributes"
+                },
+                "authentication": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "csr": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
+                },
+                "seat": {
+                    "$ref": "#/definitions/Seat"
+                },
+                "session_key": {
+                    "type": "string"
+                },
+                "validity": {
+                    "description": "Validity of certificate only for enroll certificate API.It is not supported for renewal API",
+                    "$ref": "#/definitions/Validity"
+                }
+            },
+            "title": "RequestCertificateRequest"
+        },
+        "ResetPasscodeRequest": {
+            "type": "object",
+            "properties": {
+                "seat": {
+                    "$ref": "#/definitions/Seat"
+                }
+            },
+            "title": "ResetPasscodeRequest"
+        },
+        "Response": {
+            "type": "object",
+            "title": "Response"
+        },
+        "Revocation": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "revocation_date": {
+                    "type": "string"
+                }
+            },
+            "title": "Revocation"
+        },
+        "RevokeCertificateRequest": {
+            "type": "object",
+            "properties": {
+                "revocation_reason": {
+                    "type": "string"
+                }
+            },
+            "title": "RevokeCertificateRequest"
+        },
+        "San": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "critical": {
+                    "type": "boolean"
+                }
+            },
+            "title": "San"
+        },
+        "SanAttributes": {
+            "type": "object",
+            "properties": {
+                "custom_attributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "directory_name": {
+                    "type": "string"
+                },
+                "dns_name": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "ip_address": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "other_name": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "registered_id": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "rfc822_name": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                },
+                "user_principal_name": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                }
+            },
+            "title": "SanAttributes"
+        },
+        "SearchCertificateRequest": {
+            "type": "object",
+            "properties": {
+                "common_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "issuing_ca": {
+                    "type": "string"
+                },
+                "profile_id": {
+                    "type": "string"
+                },
+                "seat_id": {
+                    "type": "string"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "start_index": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "valid_from": {
+                    "type": "string"
+                },
+                "valid_to": {
+                    "type": "string"
+                }
+            },
+            "title": "SearchCertificateRequest"
+        },
+        "SearchCertificateResponse": {
+            "type": "object",
+            "properties": {
+                "certificates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GetCertificateResponse"
+                    }
+                },
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "index": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "more_certs_available": {
+                    "type": "boolean"
+                }
+            },
+            "title": "SearchCertificateResponse"
+        },
+        "Seat": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "seat_id": {
+                    "type": "string"
+                },
+                "seat_name": {
+                    "type": "string"
+                }
+            },
+            "title": "Seat"
+        },
+        "Subject": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attribute"
+                    }
+                }
+            },
+            "title": "Subject"
+        },
+        "UpdateSeatRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "seat_name": {
+                    "type": "string"
+                }
+            },
+            "title": "UpdateSeatRequest"
+        },
+        "Validity": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "unit": {
+                    "type": "string"
+                }
+            },
+            "title": "Validity"
+        }
+    }
+}
