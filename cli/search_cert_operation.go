@@ -105,7 +105,7 @@ func retrieveOperationSearchCertificateSearchCertSearchReqFlag(m *search_certifi
 	if swag.IsZero(searchReqValueModel) {
 		searchReqValueModel = &models.SearchCertificateRequest{}
 	}
-	err, added := retrieveModelSearchCertificateRequestFlags(0, searchReqValueModel, "searchCertificateRequest", cmd)
+	err, added := RetrieveModelSearchCertificateRequestFlags(0, searchReqValueModel, "searchCertificateRequest", cmd)
 	if err != nil {
 		return err, false
 	}
