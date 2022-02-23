@@ -15,7 +15,7 @@ import (
 // Schema cli for SearchCertificateRequest
 
 // register flags to command
-func RegisterModelSearchCertificateRequestFlags(depth int, cmdPrefix string, cmd *cobra.Command) error {
+func registerModelSearchCertificateRequestFlags(depth int, cmdPrefix string, cmd *cobra.Command) error {
 
 	if err := registerSearchCertificateRequestCommonName(depth, cmdPrefix, cmd); err != nil {
 		return err
@@ -271,7 +271,7 @@ func registerSearchCertificateRequestValidTo(depth int, cmdPrefix string, cmd *c
 }
 
 // retrieve flags from commands, and set value in model. Return true if any flag is passed by user to fill model field.
-func RetrieveModelSearchCertificateRequestFlags(depth int, m *models.SearchCertificateRequest, cmdPrefix string, cmd *cobra.Command) (error, bool) {
+func retrieveModelSearchCertificateRequestFlags(depth int, m *models.SearchCertificateRequest, cmdPrefix string, cmd *cobra.Command) (error, bool) {
 	retAdded := false
 
 	err, commonNameAdded := retrieveSearchCertificateRequestCommonNameFlags(depth, m, cmdPrefix, cmd)

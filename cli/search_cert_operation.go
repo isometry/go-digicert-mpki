@@ -79,7 +79,7 @@ func registerOperationSearchCertificateSearchCertSearchReqParamFlags(cmdPrefix s
 	_ = cmd.PersistentFlags().String(searchReqFlagName, "", "Optional json string for [searchReq]. searchReq")
 
 	// add flags for body
-	if err := RegisterModelSearchCertificateRequestFlags(0, "searchCertificateRequest", cmd); err != nil {
+	if err := registerModelSearchCertificateRequestFlags(0, "searchCertificateRequest", cmd); err != nil {
 		return err
 	}
 
@@ -105,7 +105,7 @@ func retrieveOperationSearchCertificateSearchCertSearchReqFlag(m *search_certifi
 	if swag.IsZero(searchReqValueModel) {
 		searchReqValueModel = &models.SearchCertificateRequest{}
 	}
-	err, added := RetrieveModelSearchCertificateRequestFlags(0, searchReqValueModel, "searchCertificateRequest", cmd)
+	err, added := retrieveModelSearchCertificateRequestFlags(0, searchReqValueModel, "searchCertificateRequest", cmd)
 	if err != nil {
 		return err, false
 	}
