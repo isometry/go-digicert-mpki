@@ -15,7 +15,7 @@ import (
 // Schema cli for SearchCertificateRequest
 
 // register flags to command
-func registerModelSearchCertificateRequestFlags(depth int, cmdPrefix string, cmd *cobra.Command) error {
+func RegisterModelSearchCertificateRequestFlags(depth int, cmdPrefix string, cmd *cobra.Command) error {
 
 	if err := registerSearchCertificateRequestCommonName(depth, cmdPrefix, cmd); err != nil {
 		return err
