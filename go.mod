@@ -6,7 +6,7 @@ require (
 	github.com/go-openapi/errors v0.20.2
 	github.com/go-openapi/runtime v0.23.1
 	github.com/go-openapi/strfmt v0.21.2
-	github.com/go-openapi/swag v0.21.1
+	github.com/go-openapi/swag v0.23.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.1
