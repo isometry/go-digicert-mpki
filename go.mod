@@ -15,6 +15,6 @@ require (
 require (
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/spf13/afero v1.8.1 // indirect
-	golang.org/x/sys v0.0.0-20220223155357-96fed51e1446 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 )
